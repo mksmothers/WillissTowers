@@ -1,0 +1,56 @@
+﻿@model List<StudentGrade>
+
+@{
+    ViewData["Title"] = "Index";
+}
+<p markdown>
+    # LINQ
+
+    In this example, use LINQ queries to get the correct data in the `LinqController` from the `GradeList` object to return the following:
+
+    * Average Grade Percentage for Classs
+    * How many students received each letter grade
+    * A list of students ordered by their number grade descending (Grade - FirstName LastName)
+</p>
+<h4>Average Grade</h4>
+<p>@ViewBag.AverageGrade.ToString("N2")</p>
+<h4>List of Grades and Number of Students</h4>
+<p>
+    <table class="table table-hover">
+
+        <tr>
+            <th scope="col">Grade</th>
+            <th scope="col">Count</th>
+        </tr>
+
+        @foreach (KeyValuePair<string, int> g in ViewBag.GroupList)
+        {
+            <tr>
+                <th scope="row">@g.Key</th>
+                <td>@g.Value</td>
+            </tr>
+        }
+
+    </table>
+</p>
+<h4>List of Students Ordered By Grades Descending</h4>
+<p>
+
+    <table class="table table-hover">
+
+        <tr>
+            <th scope="col">Grade</th>
+            <th scope="col">Name</th>
+        </tr>
+
+        @foreach (StudentGrade s in Model
+            .OrderByDescending(o => o.NumberGrade))
+           
+        {
+            <tr>
+                <th scope="row">@s.NumberGrade</th>
+                <td>@Html.Raw(String.Format("{0} {1}", s.FirstName, s.LastName))</td>
+            </tr>
+        }
+    </table>
+</p>
